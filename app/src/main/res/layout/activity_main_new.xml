@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:id="@+id/cl">
+
+    <LinearLayout
+            android:id="@+id/txtContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+        <ImageView
+                android:id="@+id/btn_switch"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_round_smile_24dp"/>
+
+        <com.momt.emojipanel.widgets.EmojiEditText
+                android:id="@+id/txt"
+                android:imeOptions="flagNoExtractUi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="textShortMessage"
+                />
+    </LinearLayout>
+
+    <com.momt.emojipanel.widgets.PagerPanel
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="gone">
+
+        <com.momt.emojipanel.widgets.EmojiPanel
+                android:id="@+id/emoji_panel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </com.momt.emojipanel.widgets.PagerPanel>
+</FrameLayout>

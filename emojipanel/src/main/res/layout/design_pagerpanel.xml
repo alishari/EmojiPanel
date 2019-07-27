@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layoutDirection="ltr"
+            android:background="@android:color/white"
+            android:layout_gravity="bottom"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior">
+
+        <com.momt.emojipanel.widgets.SquareImageView
+                android:id="@+id/btn_left"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerInside"
+                android:layout_gravity="center_vertical"
+                android:visibility="invisible"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tabs"
+                app:layout_constraintTop_toTopOf="@id/tabs"
+                app:basedOnWidth="false"/>
+
+        <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:tabIndicatorGravity="top"
+                app:layout_constraintLeft_toRightOf="@id/btn_left"
+                app:layout_constraintRight_toLeftOf="@id/btn_right"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.momt.emojipanel.widgets.SquareImageView
+                android:id="@+id/btn_right"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerInside"
+                android:layout_gravity="center_vertical"
+                android:visibility="invisible"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tabs"
+                app:layout_constraintTop_toTopOf="@id/tabs"
+                app:basedOnWidth="false"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="emoji_big_size">34dp</dimen>
+    <dimen name="emoji_cell_size">45dp</dimen>
+
+    <dimen name="skin_color_select_popup_elevation">8dp</dimen>
+    <dimen name="skin_color_select_popup_padding">4dp</dimen>
+
+    <dimen name="panel_default_height_portrait">300dp</dimen>
+    <dimen name="panel_default_height_landscape">200dp</dimen>
+
+    <dimen name="pager_bottom_btn_size">40dp</dimen>
+</resources>
