@@ -14,7 +14,7 @@ import com.momt.emojipanel.widgets.EmojiImageView
 internal class EmojiListAdapter(
     val context: Context,
     val items: MutableList<String>,
-    val headersTitles: ArrayList<String>,
+    val headersTitles: Array<String>,
     val defaultSkinColor: String,
     val skinColors: HashMap<String, String>,
     var hasRecent: Boolean

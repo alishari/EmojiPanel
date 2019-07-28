@@ -1,7 +1,7 @@
 package com.momt.emojipanel.widgets
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
@@ -42,6 +42,8 @@ class EmojiPanel @JvmOverloads constructor(
 
         private const val EMOJIS_USAGE_STATISTICS_PREFERENCE_NAME = "emojisUsage"
         private const val EMOJIS_SKIN_COLORS_PREFERENCE_NAME = "skinColors"
+
+        private val CATEGORY_COUNT = EmojiData.dataColored.size
     }
 
     private var usageStatistics = HashMap<String, Int>()
@@ -68,12 +70,40 @@ class EmojiPanel @JvmOverloads constructor(
         )
 
         //Do not change this initialization order
+        context.obtainStyledAttributes(
+            attrs,
+            R.styleable.EmojiPanel + intArrayOf(R.array.def_categories_icons, R.array.def_categories_titles),
+            defStyleAttr,
+            defStyleRes
+        )
+            .apply(this::initIconsAndHeaders)
+            .also(TypedArray::recycle)
+
         loadSettings()
         initList()
         initTabs()
     }
 
     //region Initialization
+
+
+    private lateinit var categoriesIcons: IntArray
+    private lateinit var categoriesTitles: Array<String>
+
+    private fun initIconsAndHeaders(ta: TypedArray) {
+        var iconsId = ta.getResourceId(R.styleable.EmojiPanel_categoriesIcons, 0)
+        if (iconsId == 0) iconsId = R.array.def_categories_icons
+        resources.obtainTypedArray(iconsId)
+            .apply { categoriesIcons = IntArray(CATEGORY_COUNT) { i -> getResourceId(i, 0) } }
+            .also(TypedArray::recycle)
+
+        var titlesId = ta.getResourceId(R.styleable.EmojiPanel_categoriesTitles, 0)
+        if (titlesId == 0) titlesId = R.array.def_categories_titles
+        resources.obtainTypedArray(titlesId)
+            .apply { categoriesTitles = Array(CATEGORY_COUNT) { i -> getString(i) ?: "" } }
+            .also(TypedArray::recycle)
+    }
+
 
     private lateinit var headerPositions: ArrayList<Int>
 
@@ -88,7 +118,7 @@ class EmojiPanel @JvmOverloads constructor(
         adapter = EmojiListAdapter(
             context,
             makeEmojisList(),
-            getHeadersTitles(),
+            categoriesTitles,
             defaultSkinColor,
             skinColors,
             usageStatistics.isNotEmpty()
@@ -133,16 +163,6 @@ class EmojiPanel @JvmOverloads constructor(
             .sortedByDescending { it.value }
             .take(DEFAULT_MAX_RECENT_EMOJI)
             .map { it.key }
-
-    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-    private fun getHeadersTitles(): ArrayList<String> {
-        val titles = resources.obtainTypedArray(R.array.categories_titles)
-        val retVal = ArrayList<String>(titles.length())
-        for (i in 0 until titles.length())
-            retVal.add(titles.getString(i))
-        titles.recycle()
-        return retVal
-    }
 
     private fun listItemClicked(sender: EmojiListAdapter, args: ItemClickEventArgs) =
         emojiClicked(adapter.items[args.position], (args.view as EmojiImageView).emojiCode)
@@ -201,17 +221,13 @@ class EmojiPanel @JvmOverloads constructor(
         usageStatistics[rawCode] = (usageStatistics[rawCode] ?: 0) + 1
     }
 
-    @SuppressLint("Recycle")
     private fun initTabs() {
-        resources.obtainTypedArray(R.array.categories_icons)
-            .apply {
-                for (i in 0 until length())
-                    theTabs.addTab(theTabs.newTab().apply {
-                        setIcon(getResourceId(i, 0))
-                        view.setPadding(0)  //avoiding possible icon crop
-                    })
-            }
-            .also { it.recycle() }
+        categoriesIcons.forEach {
+            theTabs.addTab(theTabs.newTab().apply {
+                setIcon(it)
+                view.setPadding(0)  //avoiding possible icon crop
+            })
+        }
 
         if (usageStatistics.isEmpty())
             theTabs.removeTabAt(0)

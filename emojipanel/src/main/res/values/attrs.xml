@@ -3,4 +3,9 @@
     <declare-styleable name="SquareImageView">
         <attr name="basedOnWidth" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="EmojiPanel">
+        <attr name="categoriesIcons" format="reference"/>
+        <attr name="categoriesTitles" format="reference"/>
+    </declare-styleable>
 </resources>

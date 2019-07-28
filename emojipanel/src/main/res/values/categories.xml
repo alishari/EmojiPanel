@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer-array name="categories_icons">
+    <integer-array name="def_categories_icons">
         <item>@drawable/ic_round_recent_24dp</item>
         <item>@drawable/ic_round_smile_24dp</item>
         <item>@drawable/ic_round_pets_24dp</item>
@@ -12,7 +12,7 @@
         <item>@drawable/ic_round_flag_24dp</item>
     </integer-array>
 
-    <string-array name="categories_titles">
+    <string-array name="def_categories_titles">
         <item>@string/recently</item>
         <item>@string/emoji_category_smileys</item>
         <item>@string/emoji_category_animals</item>
