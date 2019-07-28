@@ -80,6 +80,17 @@ class PagerPanel @JvmOverloads constructor(
         }
     }
 
+    private val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(p0: TabLayout.Tab?) = Unit
+
+        override fun onTabUnselected(p0: TabLayout.Tab?) = Unit
+
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            selectPage(tab?.position ?: 0, true)
+        }
+
+    }
+
     init {
         addView(
             containerView,
@@ -92,6 +103,8 @@ class PagerPanel @JvmOverloads constructor(
 
         thePager.addOnPageChangeListener(backspacePageChangeListener)
         thePager.addOnPageChangeListener(tabsPageChangeListener)
+
+        theTabs.addOnTabSelectedListener(tabSelectedListener)
     }
 
     private lateinit var adapter: MyAdapter
@@ -144,7 +157,7 @@ class PagerPanel @JvmOverloads constructor(
 
     fun getItemAt(index: Int) = items[index]
 
-    fun selectPage(index: Int) = thePager.setCurrentItem(index, false)
+    fun selectPage(index: Int, smoothScroll: Boolean = false) = thePager.setCurrentItem(index, smoothScroll)
 
     /**
      * Use this method instead of [findViewById] if you want to find a view

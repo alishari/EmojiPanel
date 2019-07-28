@@ -26,13 +26,9 @@ internal class EmojiTabLayoutTabSelectedListener(
         override fun getVerticalSnapPreference() = SNAP_TO_START
     }
 
-    override fun onTabReselected(tab: TabLayout.Tab?) {
-        //Not used
-    }
+    override fun onTabReselected(tab: TabLayout.Tab?) = onTabSelected(tab)
 
-    override fun onTabUnselected(tab: TabLayout.Tab?) {
-        //Not used
-    }
+    override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         if (disableForScrollSet)

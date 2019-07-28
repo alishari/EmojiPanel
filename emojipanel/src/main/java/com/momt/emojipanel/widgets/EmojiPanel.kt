@@ -43,7 +43,7 @@ class EmojiPanel @JvmOverloads constructor(
         private const val EMOJIS_USAGE_STATISTICS_PREFERENCE_NAME = "emojisUsage"
         private const val EMOJIS_SKIN_COLORS_PREFERENCE_NAME = "skinColors"
 
-        private val CATEGORY_COUNT = EmojiData.dataColored.size
+        private val CATEGORY_COUNT = EmojiData.dataColored.size + 1
     }
 
     private var usageStatistics = HashMap<String, Int>()
