@@ -1,6 +1,7 @@
 package com.momt.emojipanel
 
 import android.content.Context
+import android.os.Build
 import android.widget.PopupWindow
 import com.momt.emojipanel.utils.EventHandler
 import com.momt.emojipanel.widgets.EmojiSkinColorLayout
@@ -31,12 +32,16 @@ internal class EmojiColorPopupWindow(context: Context, baseCode: String) :
             selectionCanceled += { _, _ -> dismiss() }
         }
         setBackgroundDrawable(
-            context.resources.getDrawable(
-                R.drawable.emoji_skin_color_select_popup_background,
-                context.theme
-            )
+            if (Build.VERSION.SDK_INT >= 21)
+                context.resources.getDrawable(
+                    R.drawable.emoji_skin_color_select_popup_background,
+                    context.theme
+                )
+            else
+                context.resources.getDrawable(R.drawable.emoji_skin_color_select_popup_background)
         )
-        elevation = context.resources.getDimension(R.dimen.skin_color_select_popup_elevation)
+        if (Build.VERSION.SDK_INT >= 21)
+            elevation = context.resources.getDimension(R.dimen.skin_color_select_popup_elevation)
     }
 
     override fun dismiss() {

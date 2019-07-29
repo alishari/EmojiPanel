@@ -29,9 +29,8 @@ import kotlinx.android.synthetic.main.design_pagerpanel.view.*
 class PagerPanel @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), LayoutContainer {
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr), LayoutContainer {
 
     override val containerView: View = View.inflate(context, R.layout.design_pagerpanel, null)
 

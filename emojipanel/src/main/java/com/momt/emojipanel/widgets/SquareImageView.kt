@@ -2,7 +2,7 @@ package com.momt.emojipanel.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import com.momt.emojipanel.R
 
 /**
@@ -13,7 +13,7 @@ open class SquareImageView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
-) : ImageView(context, attrs, defStyleAttr, defStyleRes) {
+) : AppCompatImageView(context, attrs, defStyleAttr) {
 
     var basedOnWidth: Boolean = true
         set(value) {

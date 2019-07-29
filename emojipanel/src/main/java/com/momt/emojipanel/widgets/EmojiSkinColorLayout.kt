@@ -18,9 +18,8 @@ import com.momt.emojipanel.utils.getRectOnScreen
 internal class EmojiSkinColorLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
 
     companion object {
         const val SKIN_COLOR_COUNT = 6

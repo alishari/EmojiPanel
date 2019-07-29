@@ -33,9 +33,8 @@ import kotlinx.android.synthetic.main.design_emojipanel.view.*
 class EmojiPanel @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), LayoutContainer,
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr), LayoutContainer,
     PagerPanel.PageIconProvider, PagerPanel.BackspaceSupporter, PagerPanel.ScrollReplicator {
     companion object {
         private const val DEFAULT_MAX_RECENT_EMOJI = 20
@@ -72,9 +71,7 @@ class EmojiPanel @JvmOverloads constructor(
         //Do not change this initialization order
         context.obtainStyledAttributes(
             attrs,
-            R.styleable.EmojiPanel + intArrayOf(R.array.def_categories_icons, R.array.def_categories_titles),
-            defStyleAttr,
-            defStyleRes
+            R.styleable.EmojiPanel + intArrayOf(R.array.def_categories_icons, R.array.def_categories_titles)
         )
             .apply(this::initIconsAndHeaders)
             .also(TypedArray::recycle)
@@ -190,8 +187,7 @@ class EmojiPanel @JvmOverloads constructor(
             .showAsDropDown(
                 args.view,
                 0,
-                -(EmojiColorPopupWindow.getPopupHeight(context) + args.view.height),
-                0
+                -(EmojiColorPopupWindow.getPopupHeight(context) + args.view.height)
             )
     }
 

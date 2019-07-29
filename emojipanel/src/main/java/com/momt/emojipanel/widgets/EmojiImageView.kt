@@ -3,6 +3,7 @@ package com.momt.emojipanel.widgets
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import androidx.core.util.component1
@@ -73,15 +74,21 @@ class EmojiImageView @JvmOverloads constructor(
     }
 
 
+    private var skinColorOvalRect = RectF()
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        skinColorOvalRect = RectF(
+            w * 8f / 10f,
+            h * 8f / 10f,
+            w * 9f / 10f,
+            h * 9f / 10f
+        )
+    }
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         if (showSkinColor)
-            canvas?.drawOval(
-                width * 8f / 10f,
-                height * 8f / 10f,
-                width * 9f / 10f,
-                height * 9f / 10f,
-                skinColorOvalPaint
-            )
+            canvas?.drawOval(skinColorOvalRect, skinColorOvalPaint)
     }
 }
