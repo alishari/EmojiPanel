@@ -1,7 +1,6 @@
 package com.momt.emojipanel.widgets
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.KeyEvent
@@ -23,6 +22,7 @@ import com.momt.emojipanel.adapters.ItemClickEventArgs
 import com.momt.emojipanel.emoji.EmojiData
 import com.momt.emojipanel.emoji.EmojiUtils
 import com.momt.emojipanel.utils.ScrollLockableGridLayoutManager
+import com.momt.emojipanel.utils.setAccentColor
 import com.momt.emojipanel.utils.toIterable
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.design_emojipanel.view.*
@@ -328,39 +328,23 @@ class EmojiPanel @JvmOverloads constructor(
 
     //region Theme
 
-    private var currentAccentColor: Int = 0
-
     fun setAccentColor(color: Int) {
-        theTabs.setSelectedTabIndicatorColor(color)
-        theTabs.tabRippleColor = makeTabRippleAccentColor(theTabs.tabRippleColor, color)
-        theTabs.tabIconTint = makeTabIconTintColor(theTabs.tabIconTint, color)
+        theTabs.setAccentColor(color)
     }
 
-    private fun makeTabRippleAccentColor(colorList: ColorStateList?, newAccentColor: Int): ColorStateList? {
-        if (colorList == null) return null
-
-        val colors = ColorStateList::class.java.getDeclaredField("mColors").apply { isAccessible = true }
-            .run { get(colorList) as IntArray }
-        val states = ColorStateList::class.java.getDeclaredField("mStateSpecs").apply { isAccessible = true }
-            .run { get(colorList) as Array<IntArray> }
-        val currentRawColor = colors[
-                states
-                    .filter(IntArray::isNotEmpty)
-                    .indexOfFirst { arr -> arr.contains(android.R.attr.state_selected) }] and
-                0x00FFFFFF
-        val newRawColor = newAccentColor and 0x00FFFFFF     //Removing alpha
-        return ColorStateList(
-            states,
-            colors.map { color ->
-                if (color and 0x00FFFFFF == currentRawColor) newRawColor or (color and (0xFF shl 24))   //Adding alpha
-                else color
-            }.toIntArray()
-        )
+    fun setHeadersColor(color: Int) {
+        adapter.headersColor = color
+        val first = layoutManager.findFirstVisibleItemPosition()
+        val last = layoutManager.findLastVisibleItemPosition()
+        for (pos in headerPositions) {
+            if (pos < first)
+                continue
+            if (pos > last)
+                break
+            adapter.notifyItemChanged(pos)
+        }
     }
 
-    private fun makeTabIconTintColor(colorList: ColorStateList?, newAccentColor: Int): ColorStateList? {
-        return makeTabRippleAccentColor(colorList, newAccentColor)  //Currently the same thing
-    }
     //endregion
 
     private val cellSize by lazy { context.resources.getDimensionPixelOffset(R.dimen.emoji_cell_size) }

@@ -18,6 +18,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.momt.emojipanel.R
+import com.momt.emojipanel.utils.setAccentColor
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.design_pagerpanel.view.*
 
@@ -118,6 +119,8 @@ class PagerPanel @JvmOverloads constructor(
         this.activity = activity
     }
 
+    //region Items management
+
     override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
         if (child == containerView)
             super.addView(child, index, params)
@@ -183,6 +186,13 @@ class PagerPanel @JvmOverloads constructor(
 
     }
 
+    class ViewFragment(val v: View) : Fragment() {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            v
+    }
+
+    //endregion
+
     /**
      * If your page has an icon should implement this interface. Used to show an icon in the tabs bellow
      */
@@ -216,8 +226,11 @@ class PagerPanel @JvmOverloads constructor(
         fun setTargetCoordinatorLayout(target: CoordinatorLayout)
     }
 
-    class ViewFragment(val v: View) : Fragment() {
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            v
+    //region Theme
+
+    fun setAccentColor(color: Int) {
+        theTabs.setAccentColor(color)
     }
+
+    //endregion
 }

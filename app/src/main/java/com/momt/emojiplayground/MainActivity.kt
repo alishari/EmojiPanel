@@ -21,7 +21,9 @@ class MainActivity : AppCompatActivity() {
         emojiPanel.loadSettings()
 
         emojiPanel.txtBoundWith = txt
-        emojiPanel.setAccentColor(Color.GREEN)
+        emojiPanel.setHeadersColor(Color.RED)
+        emojiPanel.setAccentColor(Color.BLUE)
+        pager.setAccentColor(Color.BLUE)
 
         openHelper = PanelOpenHelperNew(this, txt, pager, btn_switch, findViewById(R.id.txtContainer), cl)
 
