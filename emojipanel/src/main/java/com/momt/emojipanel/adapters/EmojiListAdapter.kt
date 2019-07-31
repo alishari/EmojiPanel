@@ -17,7 +17,8 @@ internal class EmojiListAdapter(
     val headersTitles: Array<String>,
     val defaultSkinColor: String,
     val skinColors: HashMap<String, String>,
-    var hasRecent: Boolean
+    var hasRecent: Boolean,
+    var headerColor: Int? = null
 ) :
     RecyclerView.Adapter<MyViewHolder<String>>() {
     companion object {
@@ -61,6 +62,8 @@ internal class EmojiListAdapter(
     inner class HeaderViewHolder(val txt: TextView) : MyViewHolder<String>(txt) {
         override fun bind(item: String) {
             txt.text = headersTitles[item.substring(1).toInt()]
+            if (headerColor != null)
+                txt.setTextColor(headerColor!!)
         }
     }
 

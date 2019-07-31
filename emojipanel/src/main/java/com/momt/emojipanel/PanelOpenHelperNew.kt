@@ -19,6 +19,14 @@ import com.momt.emojipanel.utils.EmptyActivityLifecycleCallbacks
 import com.momt.emojipanel.utils.EventHandler
 
 /**
+ * The helper class to open and close the panel at bottom of a edittext. It handles keyboard size, changes panel size,
+ * switches between panel and keyboard, ...
+ * @param context The context to run in
+ * @param txt The [EditText] whichs gets focus
+ * @param panel The panel to be opened and closed
+ * @param btn The [ImageView] which the image of will change on panel switches
+ * @param nonEmojiContent The rest of the layout to be resized when the [panel] or keyboard is open
+ * @param parentFrame The [FrameLayout] container of the [nonEmojiContent] and the [panel]
  * @property isKeyboardOpen Indicates whether the helper is considering keyboard is open or not
  * @property isPanelShowing Indicates whether the user is seeing the panel or not
  */

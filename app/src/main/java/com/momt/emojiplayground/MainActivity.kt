@@ -1,5 +1,6 @@
 package com.momt.emojiplayground
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.momt.emojipanel.PanelOpenHelperNew
@@ -20,13 +21,13 @@ class MainActivity : AppCompatActivity() {
         emojiPanel.loadSettings()
 
         emojiPanel.txtBoundWith = txt
+        emojiPanel.setAccentColor(Color.GREEN)
 
         openHelper = PanelOpenHelperNew(this, txt, pager, btn_switch, findViewById(R.id.txtContainer), cl)
 
         openHelper.panelVisibilityChanged += { _, isVisible -> if (isVisible) emojiPanel.updateRecentEmojis() }
 
         btn_switch.setOnClickListener { openHelper.switchPanel() }
-
     }
 
 

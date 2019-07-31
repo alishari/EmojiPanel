@@ -122,23 +122,29 @@ class PagerPanel @JvmOverloads constructor(
         if (child == containerView)
             super.addView(child, index, params)
         else if (child != null)
-            addItem(child, index)
+            addItem(child, index = index)
     }
 
     /**
      * Adds a view as page to the viewpager
+     * @param child The view to be converted to a fragment and added as a page
+     * @param iconProvider The icon provider of this page (shown in the bottom tab)
+     * @param index Position of the new page (at the end by default)
      */
-    fun addItem(child: View, index: Int = -1) {
-        addItem(ViewFragment(child), child as? PageIconProvider, index)
+    fun addItem(child: View, iconProvider: PageIconProvider? = child as? PageIconProvider, index: Int = -1) {
+        addItem(ViewFragment(child), iconProvider, index)
     }
 
     /**
      * Adds a fragment as page the viewpager
+     * @param item The fragment to be added as a page
+     * @param iconProvider The icon provider of this page (shown in the bottom tab)
+     * @param index Position of the new page (at the end by default)
      */
     fun addItem(item: Fragment, iconProvider: PageIconProvider? = null, index: Int = -1) {
         theTabs.addTab(tabs.newTab().apply {
             if (iconProvider == null) return@apply
-            if (iconProvider.getIconResource() > 0)
+            if (iconProvider.getIconResource() != 0)
                 setIcon(iconProvider.getIconResource())
             else
                 setIcon(iconProvider.getIconDrawable())
@@ -181,6 +187,16 @@ class PagerPanel @JvmOverloads constructor(
      * If your page has an icon should implement this interface. Used to show an icon in the tabs bellow
      */
     interface PageIconProvider {
+        companion object {
+            fun of(resId: Int) = object : PageIconProvider {
+                override fun getIconResource(): Int = resId
+            }
+
+            fun of(drawable: Drawable?) = object : PageIconProvider {
+                override fun getIconDrawable(): Drawable? = drawable
+            }
+        }
+
         fun getIconResource(): Int = 0
         fun getIconDrawable(): Drawable? = null
     }
