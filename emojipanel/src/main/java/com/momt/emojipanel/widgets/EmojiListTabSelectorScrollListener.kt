@@ -1,4 +1,4 @@
-package com.momt.emojipanel
+package com.momt.emojipanel.widgets
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,14 +21,31 @@ internal class EmojiListTabSelectorScrollListener(
 
     var tabSelectedListener: EmojiTabLayoutTabSelectedListener? = null
 
-    private var lastCategory: Int = -1
+    private var lastCategory: Int = 0
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
         if (disabledForProgrammaticallyScroll)
             return
-        val index = layoutManager.findFirstVisibleItemPosition()
-        val category = headerPositions.withIndex().findLast { it.value <= index }?.index ?: 0
+
+        val firstIndex = layoutManager.findFirstVisibleItemPosition()
+        val category =
+            if (lastCategory + 1 < headerPositions.size && firstIndex >= headerPositions[lastCategory + 1]) {
+                //Finding the last one which matches firstIndex >= headerPosition.
+                //Because probability of facing it from this is more we start from lastCategory + 1
+                //Kotlin collections dropWhile has performance problems.
+                var result = headerPositions.size - 1
+                for (i in lastCategory + 1 until headerPositions.size)
+                    if (firstIndex < headerPositions[i]) {
+                        result = i - 1
+                        break
+                    }
+                result
+            } else if (firstIndex < headerPositions[lastCategory])
+                headerPositions.subList(0, lastCategory).indexOfLast { it <= firstIndex }
+            else
+                lastCategory
+
         if (lastCategory != category) {
             tabSelectedListener?.disableForScrollSet = true
             tabLayout.getTabAt(category)?.select()

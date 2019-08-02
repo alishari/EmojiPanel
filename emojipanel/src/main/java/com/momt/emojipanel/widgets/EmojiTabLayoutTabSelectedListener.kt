@@ -1,4 +1,4 @@
-package com.momt.emojipanel
+package com.momt.emojipanel.widgets
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager

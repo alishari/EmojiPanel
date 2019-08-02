@@ -139,7 +139,8 @@ class EmojiPanel @JvmOverloads constructor(
             }
         theList.layoutManager = layoutManager
 
-        listScrollListener = EmojiListTabSelectorScrollListener(layoutManager, headerPositions, tabs)
+        listScrollListener =
+            EmojiListTabSelectorScrollListener(layoutManager, headerPositions, tabs)
         theList.addOnScrollListener(listScrollListener)
     }
 
@@ -229,7 +230,8 @@ class EmojiPanel @JvmOverloads constructor(
         if (usageStatistics.isEmpty())
             theTabs.removeTabAt(0)
 
-        theTabs.addOnTabSelectedListener(EmojiTabLayoutTabSelectedListener(headerPositions, layoutManager, context)
+        theTabs.addOnTabSelectedListener(
+            EmojiTabLayoutTabSelectedListener(headerPositions, layoutManager, context)
             .apply
             {
                 this.scrollListener = listScrollListener
