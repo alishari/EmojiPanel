@@ -22,6 +22,7 @@ import com.momt.emojipanel.adapters.ItemClickEventArgs
 import com.momt.emojipanel.emoji.EmojiData
 import com.momt.emojipanel.emoji.EmojiUtils
 import com.momt.emojipanel.utils.ScrollLockableGridLayoutManager
+import com.momt.emojipanel.utils.makeTabIconTintDefaultColor
 import com.momt.emojipanel.utils.setAccentColor
 import com.momt.emojipanel.utils.toIterable
 import kotlinx.android.extensions.LayoutContainer
@@ -29,7 +30,7 @@ import kotlinx.android.synthetic.main.design_emojipanel.view.*
 
 /**
  * The emoji panel which has the list and tabs bound with it
- * @property txtBoundWith The text field which emojis will be inserted into
+ * @property boundEditText The text field which emojis will be inserted into
  */
 class EmojiPanel @JvmOverloads constructor(
     context: Context,
@@ -50,7 +51,7 @@ class EmojiPanel @JvmOverloads constructor(
     private var defaultSkinColor = ""
     private var skinColors = HashMap<String, String>()
 
-    var txtBoundWith: EditText? = null
+    var boundEditText: EditText? = null
 
     override val containerView: View = View.inflate(context, R.layout.design_emojipanel, null)
 
@@ -160,8 +161,10 @@ class EmojiPanel @JvmOverloads constructor(
     private fun findRecentEmojis(): List<String> =
         usageStatistics.entries
             .sortedByDescending { it.value }
+            .asSequence()
             .take(DEFAULT_MAX_RECENT_EMOJI)
             .map { it.key }
+            .toList()
 
     private fun listItemClicked(sender: EmojiListAdapter, args: ItemClickEventArgs) =
         emojiClicked(adapter.items[args.position], (args.view as EmojiImageView).emojiCode)
@@ -194,12 +197,12 @@ class EmojiPanel @JvmOverloads constructor(
     }
 
     private fun emojiClicked(raw: String, code: String = raw) {
-        insertTextInto(txtBoundWith, code)
+        insertTextInto(boundEditText, code)
         increaseUsageStatistics(raw)
     }
 
     private fun emojiClickedFromSkinColorPopup(code: String, adapterPosition: Int) {
-        insertTextInto(txtBoundWith, code)
+        insertTextInto(boundEditText, code)
         val (raw, color) = EmojiUtils.extractRawAndColorFromCode(code)
         increaseUsageStatistics(raw)
         if (color.isEmpty()) //No color
@@ -232,11 +235,11 @@ class EmojiPanel @JvmOverloads constructor(
 
         theTabs.addOnTabSelectedListener(
             EmojiTabLayoutTabSelectedListener(headerPositions, layoutManager, context)
-            .apply
-            {
-                this.scrollListener = listScrollListener
-                listScrollListener.tabSelectedListener = this
-            })
+                .apply
+                {
+                    this.scrollListener = listScrollListener
+                    listScrollListener.tabSelectedListener = this
+                })
     }
 
     /**
@@ -330,8 +333,15 @@ class EmojiPanel @JvmOverloads constructor(
 
     //region Theme
 
-    fun setAccentColor(color: Int) {
+    fun setSelectedColor(color: Int) {
         theTabs.setAccentColor(color)
+    }
+
+    /**
+     * Sets default/unselected tab icon color
+     */
+    fun setDefaultTabColor(color: Int) {
+        theTabs.tabIconTint = makeTabIconTintDefaultColor(theTabs.tabIconTint, color)
     }
 
     fun setHeadersColor(color: Int) {
@@ -359,9 +369,9 @@ class EmojiPanel @JvmOverloads constructor(
     override fun getIconResource(): Int = R.drawable.ic_round_smile_24dp
 
     override fun onBackspacePressed() {
-        if (txtBoundWith?.text?.isEmpty() == true)
+        if (boundEditText?.text?.isEmpty() == true)
             return
-        txtBoundWith?.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
+        boundEditText?.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
     }
 
     override fun setTargetCoordinatorLayout(target: CoordinatorLayout) {

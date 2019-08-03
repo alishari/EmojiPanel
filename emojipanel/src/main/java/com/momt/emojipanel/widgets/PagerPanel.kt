@@ -18,6 +18,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.momt.emojipanel.R
+import com.momt.emojipanel.utils.makeTabIconTintDefaultColor
 import com.momt.emojipanel.utils.setAccentColor
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.design_pagerpanel.view.*
@@ -230,6 +231,13 @@ class PagerPanel @JvmOverloads constructor(
 
     fun setAccentColor(color: Int) {
         theTabs.setAccentColor(color)
+    }
+
+    /**
+     * Sets default/unselected tab icon color
+     */
+    fun setDefaultTabColor(color: Int) {
+        theTabs.tabIconTint = makeTabIconTintDefaultColor(theTabs.tabIconTint, color)
     }
 
     //endregion

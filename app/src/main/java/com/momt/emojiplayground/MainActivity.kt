@@ -3,13 +3,13 @@ package com.momt.emojiplayground
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.momt.emojipanel.PanelOpenHelperNew
+import com.momt.emojipanel.PanelOpenHelper
 import com.momt.emojipanel.widgets.EmojiPanel
 import kotlinx.android.synthetic.main.activity_main_new.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var openHelper: PanelOpenHelperNew
+    private lateinit var openHelper: PanelOpenHelper
     private lateinit var emojiPanel: EmojiPanel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,12 +20,14 @@ class MainActivity : AppCompatActivity() {
 
         emojiPanel.loadSettings()
 
-        emojiPanel.txtBoundWith = txt
+        emojiPanel.boundEditText = txt
         emojiPanel.setHeadersColor(Color.RED)
-        emojiPanel.setAccentColor(Color.BLUE)
+        emojiPanel.setSelectedColor(Color.BLUE)
+        emojiPanel.setDefaultTabColor(Color.MAGENTA)
         pager.setAccentColor(Color.BLUE)
+        pager.setDefaultTabColor(Color.MAGENTA)
 
-        openHelper = PanelOpenHelperNew(this, txt, pager, btn_switch, findViewById(R.id.txtContainer), cl)
+        openHelper = PanelOpenHelper(this, txt, pager, btn_switch, findViewById(R.id.txtContainer), cl)
 
         openHelper.panelVisibilityChanged += { _, isVisible -> if (isVisible) emojiPanel.updateRecentEmojis() }
 
