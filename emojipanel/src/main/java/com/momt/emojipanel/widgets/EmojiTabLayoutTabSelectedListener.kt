@@ -21,6 +21,8 @@ internal class EmojiTabLayoutTabSelectedListener(
 
     var scrollListener: EmojiListTabSelectorScrollListener? = null
 
+    var enableSmoothScroll = false
+
     //Simply sets the layout manager to scroll till item is at top of the list
     private class SnapToStartLinearSmoothScroller(context: Context) : LinearSmoothScroller(context) {
         override fun getVerticalSnapPreference() = SNAP_TO_START
@@ -33,10 +35,15 @@ internal class EmojiTabLayoutTabSelectedListener(
     override fun onTabSelected(tab: TabLayout.Tab?) {
         if (disableForScrollSet)
             return
-        scrollListener?.disabledForProgrammaticallyScroll = true
-        val smoothScroller = SnapToStartLinearSmoothScroller(context)
-        smoothScroller.targetPosition = headerPositions[tab?.position ?: 0]
-        layoutManager.startSmoothScroll(smoothScroller)
+
+        val targetPosition = headerPositions[tab?.position ?: 0]
+        if (enableSmoothScroll) {
+            scrollListener?.disabledForProgrammaticallyScroll = true
+            val smoothScroller = SnapToStartLinearSmoothScroller(context)
+            smoothScroller.targetPosition = targetPosition
+            layoutManager.startSmoothScroll(smoothScroller)
+        } else
+            layoutManager.scrollToPositionWithOffset(targetPosition, 0)
     }
 
 }

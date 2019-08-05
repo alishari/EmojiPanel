@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         emojiPanel.setHeadersColor(Color.RED)
         emojiPanel.setSelectedColor(Color.BLUE)
         emojiPanel.setDefaultTabColor(Color.MAGENTA)
+        emojiPanel.enableSmoothScrollOnTabSelect = false
         pager.setAccentColor(Color.BLUE)
         pager.setDefaultTabColor(Color.MAGENTA)
 

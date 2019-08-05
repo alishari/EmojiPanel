@@ -79,7 +79,7 @@ internal class EmojiSkinColorLayout @JvmOverloads constructor(
             lastTouchedViewIndex = selectedViewIndex
 
             return if (selectedViewIndex != -1) {
-                //Telling new txt a virtual down
+                //Simulating a virtual down for the new view
                 val newEvent = copyMotionEventByView(ev, selectedViewIndex, MotionEvent.ACTION_DOWN)
                     .also { println(it) }
                 val result = imgs[selectedViewIndex].dispatchTouchEvent(newEvent)

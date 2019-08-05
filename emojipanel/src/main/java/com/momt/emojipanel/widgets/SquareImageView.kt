@@ -1,6 +1,7 @@
 package com.momt.emojipanel.widgets
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import com.momt.emojipanel.R
@@ -11,8 +12,7 @@ import com.momt.emojipanel.R
 open class SquareImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
+    defStyleAttr: Int = 0
 ) : AppCompatImageView(context, attrs, defStyleAttr) {
 
     var basedOnWidth: Boolean = true
@@ -24,9 +24,8 @@ open class SquareImageView @JvmOverloads constructor(
     init {
         context.obtainStyledAttributes(attrs, intArrayOf(R.attr.basedOnWidth))
             .apply { this@SquareImageView.basedOnWidth = getBoolean(0, true) }
-            .also { it.recycle() }
+            .also(TypedArray::recycle)
     }
-
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         if (basedOnWidth)

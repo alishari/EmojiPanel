@@ -59,6 +59,14 @@ class EmojiPanel @JvmOverloads constructor(
 
     val theTabs: TabLayout by lazy { containerView.findViewById<TabLayout>(R.id.tabs) }
 
+    private val tabSelectedListener: EmojiTabLayoutTabSelectedListener by lazy {
+        EmojiTabLayoutTabSelectedListener(headerPositions, layoutManager, context)
+            .apply {
+                this.scrollListener = listScrollListener
+                listScrollListener.tabSelectedListener = this
+            }
+    }
+
     init {
         ApplicationLoader.setContext(context)
         AndroidUtilities.density = context.resources.displayMetrics.density
@@ -222,6 +230,12 @@ class EmojiPanel @JvmOverloads constructor(
         usageStatistics[rawCode] = (usageStatistics[rawCode] ?: 0) + 1
     }
 
+    var enableSmoothScrollOnTabSelect
+        get() = tabSelectedListener.enableSmoothScroll
+        set(value) {
+            tabSelectedListener.enableSmoothScroll = value
+        }
+
     private fun initTabs() {
         categoriesIcons.forEach {
             theTabs.addTab(theTabs.newTab().apply {
@@ -233,13 +247,7 @@ class EmojiPanel @JvmOverloads constructor(
         if (usageStatistics.isEmpty())
             theTabs.removeTabAt(0)
 
-        theTabs.addOnTabSelectedListener(
-            EmojiTabLayoutTabSelectedListener(headerPositions, layoutManager, context)
-                .apply
-                {
-                    this.scrollListener = listScrollListener
-                    listScrollListener.tabSelectedListener = this
-                })
+        theTabs.addOnTabSelectedListener(tabSelectedListener)
     }
 
     /**

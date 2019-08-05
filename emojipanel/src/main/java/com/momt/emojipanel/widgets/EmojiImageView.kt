@@ -19,9 +19,8 @@ import com.momt.emojipanel.emoji.EmojiUtils
 class EmojiImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : SquareImageView(context, attrs, defStyleAttr, defStyleRes) {
+    defStyleAttr: Int = 0
+) : SquareImageView(context, attrs, defStyleAttr) {
 
     companion object {
         private lateinit var skinColors: IntArray
@@ -78,7 +77,7 @@ class EmojiImageView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        skinColorOvalRect = RectF(
+        skinColorOvalRect = RectF(      //Displaying at 8/10 to 9/10 of size of the view
             w * 8f / 10f,
             h * 8f / 10f,
             w * 9f / 10f,
