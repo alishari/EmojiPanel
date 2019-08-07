@@ -185,6 +185,10 @@ class PagerPanel @JvmOverloads constructor(
             val index = items.indexOf(`object`)
             return if (index >= 0) index else PagerAdapter.POSITION_NONE
         }
+
+        override fun getItemId(position: Int): Long {       // preventing fragment recreations
+            return System.currentTimeMillis()
+        }
     }
 
     class ViewFragment : Fragment() {

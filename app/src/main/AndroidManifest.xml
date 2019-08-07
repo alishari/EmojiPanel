@@ -12,6 +12,7 @@
         <activity
                 android:name="com.momt.emojiplayground.MainActivity"
                 android:windowSoftInputMode="adjustResize|stateHidden"
+                android:configChanges="orientation|screenSize"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -62,6 +62,7 @@ class PanelOpenHelper(
     private val layoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         private var lastKeyboardHeight = 0
         private var lastOrientation = isActivityPortrait
+        private var lastParentFrameHeight = parentFrame.height
 
         override fun onGlobalLayout() {
             val keyboardHeight = getKeyboardHeight()
@@ -76,7 +77,9 @@ class PanelOpenHelper(
                     if (!isPanelShowing) {
                         nonEmojiContent.updateLayoutParams { height = ViewGroup.LayoutParams.MATCH_PARENT }
                         hidePanel()
-                    }
+                    } else if (lastParentFrameHeight != parentFrame.height) //and panel is showing
+                        openPanel()
+
                     return
                 } else {
                     if (isPortrait) panelPortraitHeight = keyboardHeight
@@ -91,6 +94,7 @@ class PanelOpenHelper(
             } finally {
                 lastKeyboardHeight = keyboardHeight
                 lastOrientation = isPortrait
+                lastParentFrameHeight = parentFrame.height
             }
         }
     }

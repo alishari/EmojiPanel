@@ -1,5 +1,6 @@
 package com.momt.emojiplayground
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -47,5 +48,10 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         emojiPanel.saveSettings()
         openHelper.saveSettings()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+//        openHelper.notifyConfigureChanged()
     }
 }
