@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -54,9 +54,9 @@ class PagerPanel @JvmOverloads constructor(
             if (item is BackspaceSupporter) {
                 showBackspace = true
                 backspacable = item
-            } else if (item is ViewFragment && item.v is BackspaceSupporter) {
+            } else if (item is ViewFragment && item.child is BackspaceSupporter) {
                 showBackspace = true
-                backspacable = item.v
+                backspacable = item.child as BackspaceSupporter
             } else
                 showBackspace = false
 
@@ -130,13 +130,13 @@ class PagerPanel @JvmOverloads constructor(
     }
 
     /**
-     * Adds a view as page to the viewpager
-     * @param child The view to be converted to a fragment and added as a page
+     * Adds a child as page to the viewpager
+     * @param child The child to be converted to a fragment and added as a page
      * @param iconProvider The icon provider of this page (shown in the bottom tab)
      * @param index Position of the new page (at the end by default)
      */
     fun addItem(child: View, iconProvider: PageIconProvider? = child as? PageIconProvider, index: Int = -1) {
-        addItem(ViewFragment(child), iconProvider, index)
+        addItem(ViewFragment().apply { this.child = child }, iconProvider, index)
     }
 
     /**
@@ -160,8 +160,8 @@ class PagerPanel @JvmOverloads constructor(
 
         if (item is ScrollReplicator)
             item.setTargetCoordinatorLayout(findViewById(R.id.container))
-        else if (item is ViewFragment && item.v is ScrollReplicator)
-            item.v.setTargetCoordinatorLayout(findViewById(R.id.container))
+        else if (item is ViewFragment && item.child is ScrollReplicator)
+            (item.child as ScrollReplicator).setTargetCoordinatorLayout(findViewById(R.id.container))
     }
 
     fun getItemAt(index: Int) = items[index]
@@ -169,11 +169,12 @@ class PagerPanel @JvmOverloads constructor(
     fun selectPage(index: Int, smoothScroll: Boolean = false) = thePager.setCurrentItem(index, smoothScroll)
 
     /**
-     * Use this method instead of [findViewById] if you want to find a view
+     * Use this method instead of [findViewById] if you want to find a child
      */
-    fun <T : View> getItemById(id: Int) = items.map { it.view ?: (it as? ViewFragment)?.v }.find { it?.id == id } as T
+    fun <T : View> getItemById(id: Int) =
+        items.map { it.view ?: (it as? ViewFragment)?.child }.find { it?.id == id } as T
 
-    private inner class MyAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    private inner class MyAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         override fun getItem(position: Int): Fragment = items[position]
 
         override fun getCount(): Int = items.size
@@ -184,12 +185,14 @@ class PagerPanel @JvmOverloads constructor(
             val index = items.indexOf(`object`)
             return if (index >= 0) index else PagerAdapter.POSITION_NONE
         }
-
     }
 
-    class ViewFragment(val v: View) : Fragment() {
+    class ViewFragment : Fragment() {
+        var child: View? = null
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            v
+            child
+
+
     }
 
     //endregion
