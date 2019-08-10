@@ -42,6 +42,8 @@ class PagerPanel @JvmOverloads constructor(
 
     private val items: MutableList<Fragment> = mutableListOf()
 
+    private val backspaceHoldTouchListener by lazy { ButtonHoldClickTriggerTouchListener() }
+
     private val backspacePageChangeListener = object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) = Unit
 
@@ -65,6 +67,7 @@ class PagerPanel @JvmOverloads constructor(
                     it.setImageResource(R.drawable.ic_round_backspace_24dp)
                     it.visibility = View.VISIBLE
                     it.setOnClickListener { backspacable!!.onBackspacePressed() }
+                    it.setOnTouchListener(backspaceHoldTouchListener)
                 }
             else
                 containerView.findViewById<View>(R.id.btn_right).visibility = View.INVISIBLE
