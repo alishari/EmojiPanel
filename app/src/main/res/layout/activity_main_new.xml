@@ -7,28 +7,42 @@
         android:id="@+id/cl">
 
     <LinearLayout
-            android:id="@+id/txtContainer"
+            android:id="@id/txtContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="bottom">
+            android:orientation="vertical">
 
-        <ImageView
-                android:id="@+id/btn_switch"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="4dp"
-                android:background="?attr/selectableItemBackground"
-                android:src="@drawable/ic_round_smile_24dp"/>
-
-        <com.momt.emojipanel.widgets.EmojiEditText
-                android:id="@+id/txt"
-                android:imeOptions="flagNoExtractUi"
-                android:layout_width="0dp"
+        <com.momt.emojipanel.widgets.EmojiTextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textShortMessage"
-                />
+                android:textSize="30dp"
+                android:textColor="#000"
+                android:text="سلام! 🙋🏻‍♂️\n Hi! 🧑🏻"/>
+
+        <LinearLayout
+                android:id="@+id/txtContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+
+            <ImageView
+                    android:id="@+id/btn_switch"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="4dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_round_smile_24dp"/>
+
+            <com.momt.emojipanel.widgets.EmojiEditText
+                    android:id="@+id/txt"
+                    android:imeOptions="flagNoExtractUi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textShortMessage"
+                    />
+        </LinearLayout>
     </LinearLayout>
 
     <com.momt.emojipanel.widgets.PagerPanel

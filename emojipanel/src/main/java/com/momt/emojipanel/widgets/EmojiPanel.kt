@@ -16,7 +16,9 @@ import androidx.core.view.setPadding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
-import com.momt.emojipanel.*
+import com.momt.emojipanel.EmojiColorPopupWindow
+import com.momt.emojipanel.R
+import com.momt.emojipanel.ReplicatorTouchListener
 import com.momt.emojipanel.adapters.EmojiListAdapter
 import com.momt.emojipanel.adapters.ItemClickEventArgs
 import com.momt.emojipanel.emoji.EmojiData
@@ -68,10 +70,6 @@ class EmojiPanel @JvmOverloads constructor(
     }
 
     init {
-        ApplicationLoader.setContext(context)
-        AndroidUtilities.density = context.resources.displayMetrics.density
-        EmojiUtils.loadAllEmojis()
-
         addView(
             containerView,
             ViewGroup.LayoutParams.MATCH_PARENT,

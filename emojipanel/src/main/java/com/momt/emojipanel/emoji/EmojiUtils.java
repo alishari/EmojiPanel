@@ -8,6 +8,7 @@
 
 package com.momt.emojipanel.emoji;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
@@ -315,5 +316,11 @@ public class EmojiUtils {
             for (int p2 = 0; p2 < 4; p2++)
                 if (emojiBmp[p][p2] == null)
                     loadEmoji(p, p2);
+    }
+
+    public static void initialize(Context context) {
+        ApplicationLoader.setContext(context);
+        AndroidUtilities.density = context.getResources().getDisplayMetrics().density;
+        EmojiUtils.loadAllEmojis();
     }
 }
