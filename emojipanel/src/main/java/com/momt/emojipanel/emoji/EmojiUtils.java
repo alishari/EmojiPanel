@@ -33,6 +33,13 @@ public class EmojiUtils {
     static Bitmap[][] emojiBmp = new Bitmap[8][splitCount];
     static boolean[][] loadingEmoji = new boolean[8][splitCount];
 
+    public static void initialize(Context context) {
+        ApplicationLoader.setContext(context);
+        AndroidUtilities.density = context.getResources().getDisplayMetrics().density;
+        loadAllEmojis();
+        initMaps();
+    }
+
     private static final int[][] cols = {
             {16, 16, 16, 16},
             {6, 6, 6, 6},
@@ -44,7 +51,7 @@ public class EmojiUtils {
             {8, 8, 8, 8},
     };
 
-    static {
+    private static void initMaps() {
         int emojiFullSize;
         int add = 2;
         if (AndroidUtilities.density <= 1.0f) {
@@ -318,9 +325,5 @@ public class EmojiUtils {
                     loadEmoji(p, p2);
     }
 
-    public static void initialize(Context context) {
-        ApplicationLoader.setContext(context);
-        AndroidUtilities.density = context.getResources().getDisplayMetrics().density;
-        EmojiUtils.loadAllEmojis();
-    }
+
 }

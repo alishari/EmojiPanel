@@ -183,7 +183,7 @@ class PanelOpenHelper(
     fun closePanel() {
         hidePanel()
         isPanelShowing = false
-        (txt.parent as View).updateLayoutParams { height = ViewGroup.LayoutParams.MATCH_PARENT }
+        nonEmojiContent.updateLayoutParams { height = ViewGroup.LayoutParams.MATCH_PARENT }
     }
 
     private fun showPanel() {

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.momt.emojipanel.PanelOpenHelper
+import com.momt.emojipanel.emoji.EmojiUtils
 import com.momt.emojipanel.widgets.EmojiPanel
 import kotlinx.android.synthetic.main.activity_main_new.*
 
@@ -15,7 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EmojiUtils.initialize(this)
         setContentView(R.layout.activity_main_new)
+
 
         emojiPanel = pager.getItemById(R.id.emoji_panel)
 
