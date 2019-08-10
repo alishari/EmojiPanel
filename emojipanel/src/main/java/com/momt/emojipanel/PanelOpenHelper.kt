@@ -29,6 +29,7 @@ import com.momt.emojipanel.utils.EventHandler
  * @param parentFrame The [FrameLayout] container of the [nonEmojiContent] and the [panel]
  * @property isKeyboardOpen Indicates whether the helper is considering keyboard is open or not
  * @property isPanelShowing Indicates whether the user is seeing the panel or not
+ * @property panelVisibilityChanged EventHandler for panel visibility change. The event arg indicates that panel is visible (true) or not
  */
 class PanelOpenHelper(
     var activity: Activity,
@@ -50,14 +51,19 @@ class PanelOpenHelper(
     var isKeyboardOpen = false
         private set
 
-    val panelVisibilityChanged = EventHandler<PanelOpenHelper, Boolean>()
+    data class PanelVisibilityChangeEventArgs(val isVisible: Boolean)
+
+    val panelVisibilityChanged = EventHandler<PanelOpenHelper, PanelVisibilityChangeEventArgs>()
     var isPanelShowing = false
         private set(value) {
             if (field != value) {
-                panelVisibilityChanged(this, value)
+                panelVisibilityChanged(this, PanelVisibilityChangeEventArgs(value))
                 field = value
             }
         }
+
+    var panelIconProvider: DrawableProvider = DrawableProvider.of(R.drawable.ic_round_smile_24dp)
+    var keyboardIconProvider: DrawableProvider = DrawableProvider.of(R.drawable.ic_round_keyboard_24dp)
 
     private val layoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         private var lastKeyboardHeight = 0
@@ -74,10 +80,10 @@ class PanelOpenHelper(
 
                 if (keyboardHeight == 0) {
                     isKeyboardOpen = false
-                    if (!isPanelShowing) {
-                        nonEmojiContent.updateLayoutParams { height = ViewGroup.LayoutParams.MATCH_PARENT }
-                        hidePanel()
-                    } else if (lastParentFrameHeight != parentFrame.height) //and panel is showing
+                    if (!isPanelShowing)   //Keyboard is closed using back button
+                        closePanel()
+                    else if (lastParentFrameHeight != parentFrame.height) //and panel is showing
+                    //(happens at orientation change for example)
                         openPanel()
 
                     return
@@ -87,7 +93,6 @@ class PanelOpenHelper(
                     updatePanelHeight(isPortrait)
 
                     isKeyboardOpen = true
-                    panel.visibility = View.VISIBLE
                     isPanelShowing = false
                     nonEmojiContent.updateLayoutParams { height = parentFrame.height }
                 }
@@ -127,6 +132,13 @@ class PanelOpenHelper(
         updatePanelHeight(isActivityPortrait)
 
         activity.application.registerActivityLifecycleCallbacks(pauseResumeChecker)
+
+        panelVisibilityChanged += { _, args ->
+            switchButton.setImageDrawable(
+                (if (args.isVisible) keyboardIconProvider else panelIconProvider)
+                    .getDrawable(activity)
+            )
+        }
     }
 
     private fun updatePanelHeight(isPortrait: Boolean) {
@@ -162,7 +174,6 @@ class PanelOpenHelper(
         txt.requestFocus()
         val inputManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.showSoftInput(txt, InputMethodManager.SHOW_IMPLICIT)
-        switchButton.setImageResource(R.drawable.ic_round_smile_24dp)
     }
 
     /**
@@ -191,13 +202,11 @@ class PanelOpenHelper(
         panel.visibility = View.VISIBLE
         isPanelShowing = true
         hideKeyboard()
-        switchButton.setImageResource(R.drawable.ic_round_keyboard_24dp)
     }
 
     private fun hidePanel() {
         panel.visibility = View.GONE
         isPanelShowing = false
-        switchButton.setImageResource(R.drawable.ic_round_smile_24dp)
     }
 
     fun loadSettings() {

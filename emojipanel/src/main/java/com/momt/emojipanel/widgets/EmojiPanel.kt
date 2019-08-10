@@ -16,6 +16,7 @@ import androidx.core.view.setPadding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
+import com.momt.emojipanel.DrawableProvider
 import com.momt.emojipanel.EmojiColorPopupWindow
 import com.momt.emojipanel.R
 import com.momt.emojipanel.ReplicatorTouchListener
@@ -39,7 +40,7 @@ class EmojiPanel @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), LayoutContainer,
-    PagerPanel.PageIconProvider, PagerPanel.BackspaceSupporter, PagerPanel.ScrollReplicator {
+    DrawableProvider, PagerPanel.BackspaceSupporter, PagerPanel.ScrollReplicator {
     companion object {
         private const val DEFAULT_MAX_RECENT_EMOJI = 20
 

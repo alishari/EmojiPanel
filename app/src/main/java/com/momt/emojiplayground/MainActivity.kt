@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         openHelper = PanelOpenHelper(this, txt, pager, btn_switch, findViewById(R.id.txtContainer), cl)
 
-        openHelper.panelVisibilityChanged += { _, isVisible -> if (isVisible) emojiPanel.updateRecentEmojis() }
+        openHelper.panelVisibilityChanged += { _, args -> if (args.isVisible) emojiPanel.updateRecentEmojis() }
 
         btn_switch.setOnClickListener { openHelper.switchPanel() }
     }
@@ -51,10 +51,5 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         emojiPanel.saveSettings()
         openHelper.saveSettings()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-//        openHelper.notifyConfigureChanged()
     }
 }

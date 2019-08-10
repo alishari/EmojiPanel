@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.momt.emojipanel.DrawableProvider
 import com.momt.emojipanel.R
 import com.momt.emojipanel.utils.makeTabIconTintDefaultColor
 import com.momt.emojipanel.utils.setAccentColor
@@ -138,7 +139,7 @@ class PagerPanel @JvmOverloads constructor(
      * @param iconProvider The icon provider of this page (shown in the bottom tab)
      * @param index Position of the new page (at the end by default)
      */
-    fun addItem(child: View, iconProvider: PageIconProvider? = child as? PageIconProvider, index: Int = -1) {
+    fun addItem(child: View, iconProvider: DrawableProvider? = child as? DrawableProvider, index: Int = -1) {
         addItem(ViewFragment().apply { this.child = child }, iconProvider, index)
     }
 
@@ -148,13 +149,10 @@ class PagerPanel @JvmOverloads constructor(
      * @param iconProvider The icon provider of this page (shown in the bottom tab)
      * @param index Position of the new page (at the end by default)
      */
-    fun addItem(item: Fragment, iconProvider: PageIconProvider? = null, index: Int = -1) {
+    fun addItem(item: Fragment, iconProvider: DrawableProvider? = null, index: Int = -1) {
         theTabs.addTab(tabs.newTab().apply {
             if (iconProvider == null) return@apply
-            if (iconProvider.getIconResource() != 0)
-                setIcon(iconProvider.getIconResource())
-            else
-                setIcon(iconProvider.getIconDrawable())
+            icon = iconProvider.getDrawable(context)
         }, if (index < 0) theTabs.tabCount else index)
 
         items.add(if (index < 0) items.size else index, item)
@@ -203,24 +201,6 @@ class PagerPanel @JvmOverloads constructor(
     }
 
     //endregion
-
-    /**
-     * If your page has an icon should implement this interface. Used to show an icon in the tabs bellow
-     */
-    interface PageIconProvider {
-        companion object {
-            fun of(resId: Int) = object : PageIconProvider {
-                override fun getIconResource(): Int = resId
-            }
-
-            fun of(drawable: Drawable?) = object : PageIconProvider {
-                override fun getIconDrawable(): Drawable? = drawable
-            }
-        }
-
-        fun getIconResource(): Int = 0
-        fun getIconDrawable(): Drawable? = null
-    }
 
     /**
      * If your page can handle and needs backspace button should implement this interface.
