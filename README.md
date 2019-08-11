@@ -1,6 +1,6 @@
 # EmojiPanel
 A set of components and classes that make it possible to have emoticons in your app.
-(Image assets and some sources are grabbed from [Telegram open source project](https://github.com/DrKLO/Telegram)
+(Image assets and some sources are grabbed from [Telegram open source project](https://github.com/DrKLO/Telegram))
 
 ## Components and Widgets:
 * `EmojiPanel`: A panel with tabs and list which will be bound to an EditText and insert emoticons in it.
