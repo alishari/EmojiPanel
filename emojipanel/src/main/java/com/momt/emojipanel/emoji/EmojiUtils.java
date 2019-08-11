@@ -16,7 +16,6 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.text.Spannable;
 import android.text.Spanned;
-import android.text.style.DynamicDrawableSpan;
 import android.util.Pair;
 import com.momt.emojipanel.AndroidUtilities;
 import com.momt.emojipanel.ApplicationLoader;
@@ -140,15 +139,8 @@ public class EmojiUtils {
         int startLength = 0;
         int previousGoodIndex = 0;
         StringBuilder emojiCode = new StringBuilder(16);
-        StringBuilder addionalCode = new StringBuilder(2);
-        boolean nextIsSkinTone;
-        EmojiDrawable drawable;
-        EmojiSpan span;
         int length = cs.length();
         boolean doneEmoji = false;
-        int nextValidLength;
-        boolean nextValid;
-        //s.setSpansCount(emojiCount);
 
         try {
             for (int i = 0; i < length; i++) {
@@ -256,11 +248,11 @@ public class EmojiUtils {
                         emojiOnly[0]++;
                     }
                     CharSequence code = emojiCode.subSequence(0, emojiCode.length());
-                    drawable = EmojiDrawable.getEmojiDrawable(code);
-                    if (drawable != null) {
-                        span = new EmojiSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM, size, fontMetrics);
+                    try {
+                        EmojiSpanNew span = new EmojiSpanNew(code, fontMetrics);
                         s.setSpan(span, startIndex, startIndex + startLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         emojiCount++;
+                    } catch (Exception ignored) {
                     }
                     startLength = 0;
                     startIndex = -1;

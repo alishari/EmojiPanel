@@ -33,9 +33,6 @@ public class EmojiDrawable extends Drawable {
             }
         }
         if (info == null) {
-//            if (BuildVars.LOGS_ENABLED) {
-            System.err.println("No drawable for emoji " + code);
-//            }
             return null;
         }
         EmojiDrawable ed = new EmojiDrawable(info);

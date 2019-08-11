@@ -324,7 +324,7 @@ class EmojiPanel @JvmOverloads constructor(
         val preferences = context.getSharedPreferences(EMOJIS_SKIN_COLORS_PREFERENCE_NAME, Context.MODE_PRIVATE)
         skinColors.clear()
         skinColors.putAll(preferences.all.mapValues { it.value as String })
-        defaultSkinColor = preferences.getString("_default", "")
+        defaultSkinColor = preferences.getString("_default", "")!!
     }
 
     private fun saveEmojisSkinColors(commit: Boolean = false) {
