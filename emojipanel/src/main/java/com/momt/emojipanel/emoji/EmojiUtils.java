@@ -11,7 +11,6 @@ package com.momt.emojipanel.emoji;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.text.Spannable;
@@ -118,11 +117,11 @@ public class EmojiUtils {
         }
     }
 
-    public static CharSequence replaceEmoji(CharSequence cs, Paint.FontMetricsInt fontMetrics, int size, boolean createNew) {
-        return replaceEmoji(cs, fontMetrics, size, createNew, null);
+    public static CharSequence replaceEmoji(CharSequence cs, int size, boolean createNew) {
+        return replaceEmoji(cs, size, createNew, null);
     }
 
-    public static CharSequence replaceEmoji(CharSequence cs, Paint.FontMetricsInt fontMetrics, int size, boolean createNew, int[] emojiOnly) {
+    public static CharSequence replaceEmoji(CharSequence cs, int size, boolean createNew, int[] emojiOnly) {
         if (cs == null || cs.length() == 0) {
             return cs;
         }
@@ -249,7 +248,7 @@ public class EmojiUtils {
                     }
                     CharSequence code = emojiCode.subSequence(0, emojiCode.length());
                     try {
-                        EmojiSpanNew span = new EmojiSpanNew(code, fontMetrics);
+                        EmojiSpanNew span = new EmojiSpanNew(code);
                         s.setSpan(span, startIndex, startIndex + startLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         emojiCount++;
                     } catch (Exception ignored) {

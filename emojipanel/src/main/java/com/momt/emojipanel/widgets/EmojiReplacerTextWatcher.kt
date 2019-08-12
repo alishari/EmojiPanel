@@ -1,12 +1,11 @@
 package com.momt.emojipanel.widgets
 
-import android.graphics.Paint
 import android.text.Editable
 import android.text.TextWatcher
 import com.momt.emojipanel.AndroidUtilities
 import com.momt.emojipanel.emoji.EmojiUtils
 
-class EmojiReplacerTextWatcher(val fontMetrics: Paint.FontMetricsInt) : TextWatcher {
+class EmojiReplacerTextWatcher : TextWatcher {
 
     private var enabled = true
 
@@ -21,7 +20,6 @@ class EmojiReplacerTextWatcher(val fontMetrics: Paint.FontMetricsInt) : TextWatc
             changeEnd,
             EmojiUtils.replaceEmoji(
                 s.subSequence(changeStart, changeEnd),
-                fontMetrics,
                 AndroidUtilities.dp(20f),
                 false,
                 intArrayOf(1)

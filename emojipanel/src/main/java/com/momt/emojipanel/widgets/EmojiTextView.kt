@@ -16,11 +16,10 @@ class EmojiTextView : AppCompatTextView {
     init {
         text = EmojiUtils.replaceEmoji(
             text,
-            paint.fontMetricsInt,
             AndroidUtilities.dp(20f),
             false,
             intArrayOf(1)
         )
-        addTextChangedListener(EmojiReplacerTextWatcher(paint.fontMetricsInt))
+        addTextChangedListener(EmojiReplacerTextWatcher())
     }
 }

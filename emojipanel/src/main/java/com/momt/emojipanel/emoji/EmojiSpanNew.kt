@@ -4,12 +4,13 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.text.style.ReplacementSpan
 
-class EmojiSpanNew(emojiCode: CharSequence, val fontMetricsInt: Paint.FontMetricsInt) : ReplacementSpan() {
+class EmojiSpanNew(emojiCode: CharSequence) : ReplacementSpan() {
 
     private val drawable = EmojiDrawable.getEmojiDrawable(emojiCode)!!
 
 
     override fun getSize(paint: Paint, text: CharSequence?, start: Int, end: Int, fm: Paint.FontMetricsInt?): Int {
+        val fontMetricsInt = paint.fontMetricsInt
         fm?.apply {
             ascent = fontMetricsInt.ascent
             descent = fontMetricsInt.descent

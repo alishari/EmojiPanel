@@ -18,6 +18,6 @@ class EmojiEditText : AppCompatEditText {
 
 
     init {
-        addTextChangedListener(EmojiReplacerTextWatcher(paint.fontMetricsInt))
+        addTextChangedListener(EmojiReplacerTextWatcher())
     }
 }
