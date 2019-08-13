@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public name="emoji_def_categories_titles" type="string-array"/>
+    <public name="emoji_def_categories_icons" type="integer-array"/>
+    <public name="categoriesIcons" type="attr"/>
+    <public name="categoriesTitles" type="attr"/>
+
+</resources>

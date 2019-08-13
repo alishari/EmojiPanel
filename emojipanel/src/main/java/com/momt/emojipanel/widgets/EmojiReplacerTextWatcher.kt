@@ -20,7 +20,6 @@ class EmojiReplacerTextWatcher : TextWatcher {
             changeEnd,
             EmojiUtils.replaceEmoji(
                 s.subSequence(changeStart, changeEnd),
-                AndroidUtilities.dp(20f),
                 false,
                 intArrayOf(1)
             )

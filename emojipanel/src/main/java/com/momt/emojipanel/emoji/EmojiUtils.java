@@ -30,6 +30,7 @@ public class EmojiUtils {
     private static final int splitCount = 4;
     static Bitmap[][] emojiBmp = new Bitmap[8][splitCount];
     static boolean[][] loadingEmoji = new boolean[8][splitCount];
+    public static float emojiSpanSizeRatio = 1f;
 
     public static void initialize(Context context) {
         ApplicationLoader.setContext(context);
@@ -117,11 +118,11 @@ public class EmojiUtils {
         }
     }
 
-    public static CharSequence replaceEmoji(CharSequence cs, int size, boolean createNew) {
-        return replaceEmoji(cs, size, createNew, null);
+    public static CharSequence replaceEmoji(CharSequence cs, boolean createNew) {
+        return replaceEmoji(cs, createNew, null);
     }
 
-    public static CharSequence replaceEmoji(CharSequence cs, int size, boolean createNew, int[] emojiOnly) {
+    public static CharSequence replaceEmoji(CharSequence cs, boolean createNew, int[] emojiOnly) {
         if (cs == null || cs.length() == 0) {
             return cs;
         }
@@ -248,7 +249,7 @@ public class EmojiUtils {
                     }
                     CharSequence code = emojiCode.subSequence(0, emojiCode.length());
                     try {
-                        EmojiSpanNew span = new EmojiSpanNew(code);
+                        EmojiSpanNew span = new EmojiSpanNew(code, emojiSpanSizeRatio);
                         s.setSpan(span, startIndex, startIndex + startLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         emojiCount++;
                     } catch (Exception ignored) {

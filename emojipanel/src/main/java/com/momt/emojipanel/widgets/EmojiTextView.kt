@@ -16,7 +16,6 @@ class EmojiTextView : AppCompatTextView {
     init {
         text = EmojiUtils.replaceEmoji(
             text,
-            AndroidUtilities.dp(20f),
             false,
             intArrayOf(1)
         )

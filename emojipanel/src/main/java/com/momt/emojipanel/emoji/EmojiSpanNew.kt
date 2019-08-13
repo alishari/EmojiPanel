@@ -4,7 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.text.style.ReplacementSpan
 
-class EmojiSpanNew(emojiCode: CharSequence) : ReplacementSpan() {
+class EmojiSpanNew(emojiCode: CharSequence, val sizeRatio: Float = 1f) : ReplacementSpan() {
 
     private val drawable = EmojiDrawable.getEmojiDrawable(emojiCode)!!
 
@@ -18,7 +18,7 @@ class EmojiSpanNew(emojiCode: CharSequence) : ReplacementSpan() {
             bottom = fontMetricsInt.bottom
             leading = fontMetricsInt.leading
         }
-        val size = fontMetricsInt.descent - fontMetricsInt.ascent
+        val size = ((fontMetricsInt.descent - fontMetricsInt.ascent) * sizeRatio).toInt()
         drawable.setBounds(0, 0, size, size)
         return size
     }
@@ -29,7 +29,12 @@ class EmojiSpanNew(emojiCode: CharSequence) : ReplacementSpan() {
         paint: Paint
     ) {
         canvas.save()
-        canvas.translate(x, (y + paint.fontMetricsInt.ascent).toFloat())
+        val fontMetricsInt = paint.fontMetricsInt
+        canvas.translate(
+            x,
+            (y + fontMetricsInt.ascent).toFloat() +
+                    (fontMetricsInt.descent - fontMetricsInt.ascent - drawable.bounds.height()) / 2f
+        )
         drawable.draw(canvas)
         canvas.restore()
     }

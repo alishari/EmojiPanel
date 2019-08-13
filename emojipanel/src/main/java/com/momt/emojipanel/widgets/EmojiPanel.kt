@@ -80,7 +80,7 @@ class EmojiPanel @JvmOverloads constructor(
         //Do not change this initialization order
         context.obtainStyledAttributes(
             attrs,
-            R.styleable.EmojiPanel + intArrayOf(R.array.def_categories_icons, R.array.def_categories_titles)
+            R.styleable.EmojiPanel + intArrayOf(R.array.emoji_def_categories_icons, R.array.emoji_def_categories_titles)
         )
             .apply(this::initIconsAndHeaders)
             .also(TypedArray::recycle)
@@ -98,13 +98,13 @@ class EmojiPanel @JvmOverloads constructor(
 
     private fun initIconsAndHeaders(ta: TypedArray) {
         var iconsId = ta.getResourceId(R.styleable.EmojiPanel_categoriesIcons, 0)
-        if (iconsId == 0) iconsId = R.array.def_categories_icons
+        if (iconsId == 0) iconsId = R.array.emoji_def_categories_icons
         resources.obtainTypedArray(iconsId)
             .apply { categoriesIcons = IntArray(CATEGORY_COUNT) { i -> getResourceId(i, 0) } }
             .also(TypedArray::recycle)
 
         var titlesId = ta.getResourceId(R.styleable.EmojiPanel_categoriesTitles, 0)
-        if (titlesId == 0) titlesId = R.array.def_categories_titles
+        if (titlesId == 0) titlesId = R.array.emoji_def_categories_titles
         resources.obtainTypedArray(titlesId)
             .apply { categoriesTitles = Array(CATEGORY_COUNT) { i -> getString(i) ?: "" } }
             .also(TypedArray::recycle)

@@ -1,13 +1,11 @@
 <resources>
-    <string name="app_name">Emoji Panel</string>
-
-    <string name="recently">Recently Used</string>
-    <string name="emoji_category_smileys">Smileys</string>
-    <string name="emoji_category_animals">Animals</string>
-    <string name="emoji_category_foods">Foods</string>
-    <string name="emoji_category_sports">Sports</string>
-    <string name="emoji_category_travel">Travel</string>
-    <string name="emoji_category_objects">Objects</string>
-    <string name="emoji_category_symbols">Symbols</string>
-    <string name="emoji_category_flags">Flags</string>
+    <string name="emoji_category_title_recents">Recently Used</string>
+    <string name="emoji_category_title_smileys">Smileys</string>
+    <string name="emoji_category_title_animals">Animals</string>
+    <string name="emoji_category_title_foods">Foods</string>
+    <string name="emoji_category_title_sports">Sports</string>
+    <string name="emoji_category_title_travel">Travel</string>
+    <string name="emoji_category_title_objects">Objects</string>
+    <string name="emoji_category_title_symbols">Symbols</string>
+    <string name="emoji_category_title_flags">Flags</string>
 </resources>

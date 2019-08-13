@@ -13,14 +13,14 @@
     </integer-array>
 
     <string-array name="categories_titles">
-        <item>@string/recently</item>
-        <item>@string/recently</item>
-        <item>@string/recently</item>
-        <item>@string/recently</item>
-        <item>@string/recently</item>
-        <item>@string/recently</item>
-        <item>@string/recently</item>
-        <item>@string/recently</item>
-        <item>@string/recently</item>
+        <item>@string/emoji_category_title_recents</item>
+        <item>@string/emoji_category_title_recents</item>
+        <item>@string/emoji_category_title_recents</item>
+        <item>@string/emoji_category_title_recents</item>
+        <item>@string/emoji_category_title_recents</item>
+        <item>@string/emoji_category_title_recents</item>
+        <item>@string/emoji_category_title_recents</item>
+        <item>@string/emoji_category_title_recents</item>
+        <item>@string/emoji_category_title_recents</item>
     </string-array>
 </resources>
