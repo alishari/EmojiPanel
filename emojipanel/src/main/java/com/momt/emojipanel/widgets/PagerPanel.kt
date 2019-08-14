@@ -287,6 +287,7 @@ class PagerPanel @JvmOverloads constructor(
 
     fun setBottomBarBackgroundColor(color: Int) {
         findViewById<View>(R.id.bottom_bar).setBackgroundColor(color)
+        theTabs.setBackgroundColor(color)
     }
 
     //endregion
