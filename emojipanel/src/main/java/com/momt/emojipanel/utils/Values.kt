@@ -60,3 +60,5 @@ internal fun makeTabIconTintDefaultColor(colorList: ColorStateList?, newDefaultC
     colors[states.indexOfFirst(IntArray::isEmpty)] = newDefaultColor
     return ColorStateList(states, colors)
 }
+
+internal fun Int.hasFlag(flag: Int) = this and flag != 0

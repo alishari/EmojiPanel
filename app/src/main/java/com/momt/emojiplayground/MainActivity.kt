@@ -1,6 +1,5 @@
 package com.momt.emojiplayground
 
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         emojiPanel.setSelectedColor(Color.BLUE)
         emojiPanel.setDefaultTabColor(Color.MAGENTA)
         emojiPanel.enableSmoothScrollOnTabSelect = false
-        pager.setAccentColor(Color.BLUE)
+        pager.setSelectedTabColor(Color.BLUE)
         pager.setDefaultTabColor(Color.MAGENTA)
 
         openHelper = PanelOpenHelper(this, txt, pager, btn_switch, findViewById(R.id.txtContainer), cl)

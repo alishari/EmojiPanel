@@ -353,6 +353,7 @@ class EmojiPanel @JvmOverloads constructor(
 
     fun setHeadersColor(color: Int) {
         adapter.headersColor = color
+        //Just updating visible items (because of limited count of headers we use a linear algorithm)
         val first = layoutManager.findFirstVisibleItemPosition()
         val last = layoutManager.findLastVisibleItemPosition()
         for (pos in headerPositions) {
