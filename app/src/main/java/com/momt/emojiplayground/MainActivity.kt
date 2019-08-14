@@ -1,7 +1,6 @@
 package com.momt.emojiplayground
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.momt.emojipanel.PanelOpenHelper
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         emojiPanel.setDefaultTabColor(Color.MAGENTA)
         emojiPanel.enableSmoothScrollOnTabSelect = false
         pager.setSelectedTabColor(Color.BLUE)
-        pager.setDefaultTabColor(Color.MAGENTA)
+//        pager.setDefaultTabColor(Color.MAGENTA)
 
         openHelper = PanelOpenHelper(this, txt, pager, btn_switch, findViewById(R.id.txtContainer), cl)
 
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         btn_switch.setOnClickListener { openHelper.switchPanel() }
 
-        txt.typeface = Typeface.createFromAsset(assets, "IRANSansMobile_Light.ttf")
+//        txt.typeface = Typeface.createFromAsset(assets, "IRANSansMobile_Light.ttf")
 
     }
 

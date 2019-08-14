@@ -39,7 +39,7 @@ class PagerPanel @JvmOverloads constructor(
 
     override val containerView: View = View.inflate(context, R.layout.design_pagerpanel, null)
 
-    val thePager: ViewPager by lazy { containerView.findViewById<ViewPager>(R.id.vp) }
+    private val thePager: ViewPager by lazy { containerView.findViewById<ViewPager>(R.id.vp) }
 
     val theTabs: TabLayout by lazy { containerView.findViewById<TabLayout>(R.id.tabs) }
 

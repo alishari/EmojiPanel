@@ -33,9 +33,9 @@ import com.momt.emojipanel.utils.EventHandler
  */
 class PanelOpenHelper(
     var activity: Activity,
-    val txt: EditText,
-    val panel: View,
-    val switchButton: ImageView,
+    private val txt: EditText,
+    private val panel: View,
+    private val switchButton: ImageView,
     val nonEmojiContent: View,
     val parentFrame: FrameLayout
 ) {

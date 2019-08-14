@@ -6,7 +6,7 @@ import android.widget.EditText
 import androidx.appcompat.widget.AppCompatEditText
 
 /**
- * An [EditText] which responses to emoji inserts and replaces them with [com.momt.emojipanel.emoji.EmojiSpan]
+ * An [EditText] which responses to emoji inserts and replaces them with [com.momt.emojipanel.emoji.EmojiSpanNew]
  */
 class EmojiEditText : AppCompatEditText {
 

@@ -16,8 +16,8 @@ import com.momt.emojipanel.R;
 
 public class EmojiDrawable extends Drawable {
 
-    private static int drawImgSize;
-    private static int bigImgSize;
+    private static final int drawImgSize;
+    private static final int bigImgSize;
 
     static {
         drawImgSize = AndroidUtilities.dp(20);
@@ -59,10 +59,10 @@ public class EmojiDrawable extends Drawable {
 
     private EmojiDrawableInfo info;
     private boolean fullSize = false;
-    private static Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-    private static Rect rect = new Rect();
+    private static final Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+    private static final Rect rect = new Rect();
 
-    public EmojiDrawable(EmojiDrawableInfo i) {
+    private EmojiDrawable(EmojiDrawableInfo i) {
         info = i;
     }
 
@@ -70,7 +70,7 @@ public class EmojiDrawable extends Drawable {
         return info;
     }
 
-    public Rect getDrawRect() {
+    private Rect getDrawRect() {
         Rect original = getBounds();
         int cX = original.centerX(), cY = original.centerY();
         rect.left = cX - (fullSize ? bigImgSize : drawImgSize) / 2;

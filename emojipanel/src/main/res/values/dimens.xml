@@ -8,6 +8,4 @@
 
     <dimen name="panel_default_height_portrait">300dp</dimen>
     <dimen name="panel_default_height_landscape">200dp</dimen>
-
-    <dimen name="pager_bottom_btn_size">40dp</dimen>
 </resources>

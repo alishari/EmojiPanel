@@ -59,7 +59,7 @@ internal class EmojiListAdapter(
         holder.bind(items[position])
     }
 
-    inner class HeaderViewHolder(val txt: TextView) : MyViewHolder<String>(txt) {
+    inner class HeaderViewHolder(private val txt: TextView) : MyViewHolder<String>(txt) {
         override fun bind(item: String) {
             txt.text = headersTitles[item.substring(1).toInt()]
             if (headersColor != null)

@@ -3,7 +3,6 @@ package com.momt.emojipanel.widgets
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import com.momt.emojipanel.AndroidUtilities
 import com.momt.emojipanel.emoji.EmojiUtils
 
 class EmojiTextView : AppCompatTextView {

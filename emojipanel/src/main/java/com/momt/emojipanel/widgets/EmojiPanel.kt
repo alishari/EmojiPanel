@@ -58,9 +58,9 @@ class EmojiPanel @JvmOverloads constructor(
 
     override val containerView: View = View.inflate(context, R.layout.design_emojipanel, null)
 
-    val theList: RecyclerView by lazy { containerView.findViewById<RecyclerView>(R.id.list) }
+    private val theList: RecyclerView by lazy { containerView.findViewById<RecyclerView>(R.id.list) }
 
-    val theTabs: TabLayout by lazy { containerView.findViewById<TabLayout>(R.id.tabs) }
+    private val theTabs: TabLayout by lazy { containerView.findViewById<TabLayout>(R.id.tabs) }
 
     private val tabSelectedListener: EmojiTabLayoutTabSelectedListener by lazy {
         EmojiTabLayoutTabSelectedListener(headerPositions, layoutManager, context)

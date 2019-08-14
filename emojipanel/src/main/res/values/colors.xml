@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="skinColors">
-        <item>@color/skin_color_none</item>
-        <item>@color/skin_color_light</item>
-        <item>@color/skin_color_medium_light</item>
-        <item>@color/skin_color_medium</item>
-        <item>@color/skin_color_medium_dark</item>
-        <item>@color/skin_color_dark</item>
-    </array>
-
     <color name="skin_color_none">#FFD763</color>
     <color name="skin_color_light">#FBE1C1</color>
     <color name="skin_color_medium_light">#FBE1C1</color>

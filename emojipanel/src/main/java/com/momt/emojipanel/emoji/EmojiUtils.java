@@ -25,11 +25,11 @@ import java.util.Locale;
 
 public class EmojiUtils {
 
-    static HashMap<CharSequence, EmojiDrawableInfo> rects = new HashMap<>();
+    static final HashMap<CharSequence, EmojiDrawableInfo> rects = new HashMap<>();
 
     private static final int splitCount = 4;
-    static Bitmap[][] emojiBmp = new Bitmap[8][splitCount];
-    static boolean[][] loadingEmoji = new boolean[8][splitCount];
+    static final Bitmap[][] emojiBmp = new Bitmap[8][splitCount];
+    static final boolean[][] loadingEmoji = new boolean[8][splitCount];
     public static float emojiSpanSizeRatio = 1f;
 
     public static void initialize(Context context) {

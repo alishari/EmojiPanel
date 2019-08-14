@@ -2,7 +2,6 @@ package com.momt.emojipanel.widgets
 
 import android.text.Editable
 import android.text.TextWatcher
-import com.momt.emojipanel.AndroidUtilities
 import com.momt.emojipanel.emoji.EmojiUtils
 
 class EmojiReplacerTextWatcher : TextWatcher {
