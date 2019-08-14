@@ -2,7 +2,7 @@
 
     <style name="EmojiHeaderTextAppearance">
         <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer-array name="def_categories_icons">
+    <integer-array name="emoji_def_categories_icons">
         <item>@drawable/ic_round_recent_24dp</item>
         <item>@drawable/ic_round_smile_24dp</item>
         <item>@drawable/ic_round_pets_24dp</item>
@@ -12,15 +12,15 @@
         <item>@drawable/ic_round_flag_24dp</item>
     </integer-array>
 
-    <string-array name="def_categories_titles">
-        <item>@string/recently</item>
-        <item>@string/emoji_category_smileys</item>
-        <item>@string/emoji_category_animals</item>
-        <item>@string/emoji_category_foods</item>
-        <item>@string/emoji_category_sports</item>
-        <item>@string/emoji_category_travel</item>
-        <item>@string/emoji_category_objects</item>
-        <item>@string/emoji_category_symbols</item>
-        <item>@string/emoji_category_flags</item>
+    <string-array name="emoji_def_categories_titles">
+        <item>@string/emoji_category_title_recents</item>
+        <item>@string/emoji_category_title_smileys</item>
+        <item>@string/emoji_category_title_animals</item>
+        <item>@string/emoji_category_title_foods</item>
+        <item>@string/emoji_category_title_sports</item>
+        <item>@string/emoji_category_title_travel</item>
+        <item>@string/emoji_category_title_objects</item>
+        <item>@string/emoji_category_title_symbols</item>
+        <item>@string/emoji_category_title_flags</item>
     </string-array>
 </resources>

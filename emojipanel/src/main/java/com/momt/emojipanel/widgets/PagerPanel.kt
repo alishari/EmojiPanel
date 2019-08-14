@@ -1,7 +1,7 @@
 package com.momt.emojipanel.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.annotation.IntDef
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.momt.emojipanel.DrawableProvider
 import com.momt.emojipanel.R
+import com.momt.emojipanel.utils.hasFlag
 import com.momt.emojipanel.utils.makeTabIconTintDefaultColor
 import com.momt.emojipanel.utils.setAccentColor
 import kotlinx.android.extensions.LayoutContainer
@@ -41,37 +43,48 @@ class PagerPanel @JvmOverloads constructor(
 
     val theTabs: TabLayout by lazy { containerView.findViewById<TabLayout>(R.id.tabs) }
 
+    val rightButton: ImageView by lazy { containerView.findViewById<ImageView>(R.id.btn_right) }
+
+    val leftButton: ImageView by lazy { containerView.findViewById<ImageView>(R.id.btn_left) }
+
     private val items: MutableList<Fragment> = mutableListOf()
 
-    private val backspaceHoldTouchListener by lazy { ButtonHoldClickTriggerTouchListener() }
+    private val bottomButtonsPageChangeListener = object : ViewPager.OnPageChangeListener {
+        private val holdClickTriggerTouchListener by lazy { ButtonHoldClickTriggerTouchListener() }
 
-    private val backspacePageChangeListener = object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) = Unit
 
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
 
+        @SuppressLint("ClickableViewAccessibility")
         override fun onPageSelected(position: Int) {
             val item = adapter.getItem(position)
-            val showBackspace: Boolean
-            var backspacable: BackspaceSupporter? = null
-            if (item is BackspaceSupporter) {
-                showBackspace = true
-                backspacable = item
-            } else if (item is ViewFragment && item.child is BackspaceSupporter) {
-                showBackspace = true
-                backspacable = item.child as BackspaceSupporter
-            } else
-                showBackspace = false
 
-            if (showBackspace)
-                containerView.findViewById<ImageView>(R.id.btn_right).let {
-                    it.setImageResource(R.drawable.ic_round_backspace_24dp)
-                    it.visibility = View.VISIBLE
-                    it.setOnClickListener { backspacable!!.onBackspacePressed() }
-                    it.setOnTouchListener(backspaceHoldTouchListener)
-                }
-            else
-                containerView.findViewById<View>(R.id.btn_right).visibility = View.INVISIBLE
+            val buttonOwner: BottomButtonOwner
+            if (item is BottomButtonOwner)
+                buttonOwner = item
+            else if (item is ViewFragment && item.child is BottomButtonOwner)
+                buttonOwner = item.child as BottomButtonOwner
+            else {
+                leftButton.visibility = View.INVISIBLE
+                rightButton.visibility = View.INVISIBLE
+                return
+            }
+
+            leftButton.setOnClickListener { buttonOwner.onBottomButtonClick(BottomButtonOwner.LEFT) }
+            rightButton.setOnClickListener { buttonOwner.onBottomButtonClick(BottomButtonOwner.RIGHT) }
+
+            val icons = buttonOwner.getBottomButtonIcons()
+            leftButton.setImageDrawable(icons.first?.getDrawable(context))
+            rightButton.setImageDrawable(icons.second?.getDrawable(context))
+
+            val types = buttonOwner.getBottomButtonsTypes()
+            leftButton.visibility = if (types.hasFlag(BottomButtonOwner.LEFT)) View.VISIBLE else View.INVISIBLE
+            rightButton.visibility = if (types.hasFlag(BottomButtonOwner.RIGHT)) View.VISIBLE else View.INVISIBLE
+
+            val triggerTypes = buttonOwner.getClickTriggerOnHoldButtonsTypes()
+            leftButton.setOnTouchListener(if (types.hasFlag(BottomButtonOwner.LEFT)) holdClickTriggerTouchListener else null)
+            rightButton.setOnTouchListener(if (types.hasFlag(BottomButtonOwner.RIGHT)) holdClickTriggerTouchListener else null)
         }
     }
 
@@ -106,7 +119,7 @@ class PagerPanel @JvmOverloads constructor(
         if (context is AppCompatActivity)
             initWith(context)
 
-        thePager.addOnPageChangeListener(backspacePageChangeListener)
+        thePager.addOnPageChangeListener(bottomButtonsPageChangeListener)
         thePager.addOnPageChangeListener(tabsPageChangeListener)
 
         theTabs.addOnTabSelectedListener(tabSelectedListener)
@@ -157,7 +170,7 @@ class PagerPanel @JvmOverloads constructor(
 
         items.add(if (index < 0) items.size else index, item)
         adapter.notifyDataSetChanged()
-        backspacePageChangeListener.onPageSelected(thePager.currentItem)
+        bottomButtonsPageChangeListener.onPageSelected(thePager.currentItem)
 
         if (item is ScrollReplicator)
             item.setTargetCoordinatorLayout(findViewById(R.id.container))
@@ -203,9 +216,49 @@ class PagerPanel @JvmOverloads constructor(
     //endregion
 
     /**
+     * If your page handle and or needs bottom buttons should implement this interface.
+     */
+    interface BottomButtonOwner {
+        companion object {
+            @Retention(AnnotationRetention.SOURCE)
+            @IntDef(NONE, LEFT, RIGHT, BOTH)
+            annotation class ButtonType
+
+            const val NONE = 0
+            const val LEFT = 1
+            const val RIGHT = 2
+            const val BOTH = 3
+        }
+
+        @ButtonType
+        fun getBottomButtonsTypes(): Int
+
+        fun onBottomButtonClick(@ButtonType buttonId: Int)
+        /**
+         * @return A pair which [Pair.first] represents left button's icon and [Pair.second] represents right button's icon
+         */
+        fun getBottomButtonIcons(): Pair<DrawableProvider?, DrawableProvider?>
+
+        @ButtonType
+        fun getClickTriggerOnHoldButtonsTypes(): Int
+    }
+
+    /**
      * If your page can handle and needs backspace button should implement this interface.
      */
-    interface BackspaceSupporter {
+    interface BackspaceSupporter : BottomButtonOwner {
+        override fun getBottomButtonsTypes(): Int = BottomButtonOwner.RIGHT
+
+        override fun getBottomButtonIcons(): Pair<DrawableProvider?, DrawableProvider?> =
+            Pair(null, DrawableProvider.of(R.drawable.ic_round_backspace_24dp))
+
+        override fun getClickTriggerOnHoldButtonsTypes(): Int = BottomButtonOwner.RIGHT
+
+        override fun onBottomButtonClick(buttonId: Int) {
+            if (buttonId.hasFlag(BottomButtonOwner.RIGHT))
+                onBackspacePressed()
+        }
+
         fun onBackspacePressed()
     }
 
@@ -219,15 +272,22 @@ class PagerPanel @JvmOverloads constructor(
 
     //region Theme
 
-    fun setAccentColor(color: Int) {
+    fun setSelectedTabColor(color: Int) {
         theTabs.setAccentColor(color)
     }
 
     /**
      * Sets default/unselected tab icon color
      */
-    fun setDefaultTabColor(color: Int) {
+    fun setButtonAndDefaultTabColor(color: Int) {
         theTabs.tabIconTint = makeTabIconTintDefaultColor(theTabs.tabIconTint, color)
+        leftButton.setColorFilter(color)
+        rightButton.setColorFilter(color)
+    }
+
+    fun setBottomBarBackgroundColor(color: Int) {
+        findViewById<View>(R.id.bottom_bar).setBackgroundColor(color)
+        theTabs.setBackgroundColor(color)
     }
 
     //endregion

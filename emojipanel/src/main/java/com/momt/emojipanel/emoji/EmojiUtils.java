@@ -11,12 +11,10 @@ package com.momt.emojipanel.emoji;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.text.Spannable;
 import android.text.Spanned;
-import android.text.style.DynamicDrawableSpan;
 import android.util.Pair;
 import com.momt.emojipanel.AndroidUtilities;
 import com.momt.emojipanel.ApplicationLoader;
@@ -32,6 +30,7 @@ public class EmojiUtils {
     private static final int splitCount = 4;
     static Bitmap[][] emojiBmp = new Bitmap[8][splitCount];
     static boolean[][] loadingEmoji = new boolean[8][splitCount];
+    public static float emojiSpanSizeRatio = 1f;
 
     public static void initialize(Context context) {
         ApplicationLoader.setContext(context);
@@ -119,11 +118,11 @@ public class EmojiUtils {
         }
     }
 
-    public static CharSequence replaceEmoji(CharSequence cs, Paint.FontMetricsInt fontMetrics, int size, boolean createNew) {
-        return replaceEmoji(cs, fontMetrics, size, createNew, null);
+    public static CharSequence replaceEmoji(CharSequence cs, boolean createNew) {
+        return replaceEmoji(cs, createNew, null);
     }
 
-    public static CharSequence replaceEmoji(CharSequence cs, Paint.FontMetricsInt fontMetrics, int size, boolean createNew, int[] emojiOnly) {
+    public static CharSequence replaceEmoji(CharSequence cs, boolean createNew, int[] emojiOnly) {
         if (cs == null || cs.length() == 0) {
             return cs;
         }
@@ -140,15 +139,8 @@ public class EmojiUtils {
         int startLength = 0;
         int previousGoodIndex = 0;
         StringBuilder emojiCode = new StringBuilder(16);
-        StringBuilder addionalCode = new StringBuilder(2);
-        boolean nextIsSkinTone;
-        EmojiDrawable drawable;
-        EmojiSpan span;
         int length = cs.length();
         boolean doneEmoji = false;
-        int nextValidLength;
-        boolean nextValid;
-        //s.setSpansCount(emojiCount);
 
         try {
             for (int i = 0; i < length; i++) {
@@ -256,11 +248,11 @@ public class EmojiUtils {
                         emojiOnly[0]++;
                     }
                     CharSequence code = emojiCode.subSequence(0, emojiCode.length());
-                    drawable = EmojiDrawable.getEmojiDrawable(code);
-                    if (drawable != null) {
-                        span = new EmojiSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM, size, fontMetrics);
+                    try {
+                        EmojiSpanNew span = new EmojiSpanNew(code, emojiSpanSizeRatio);
                         s.setSpan(span, startIndex, startIndex + startLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         emojiCount++;
+                    } catch (Exception ignored) {
                     }
                     startLength = 0;
                     startIndex = -1;
